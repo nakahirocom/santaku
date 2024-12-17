@@ -21,6 +21,14 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'region_id',
+        'basic_count',
+        'base_continuous_correct_answers',
+        'user_mode',
+        'continuous_correct_answers',
+        'best_record',
+        'best_record_at',
+        'chatwork_room_id'
     ];
 
     /**
@@ -42,4 +50,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function question()
+{
+    return $this->hasMany(Question::class);
 }
+}
+
