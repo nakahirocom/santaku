@@ -335,7 +335,7 @@ class MasterController extends Controller
             ]
         ]);
 
-        // すべてのユーザーを取得
+        // すべ��のユーザーを取得
         $users = User::all();
 
         foreach ($users as $user) {
@@ -347,7 +347,7 @@ class MasterController extends Controller
             // 通知メッセージの作成
             $userId = $user->id;
             $messageBody = "[info]⭐️獲得TOP3 と {$user['name']}さん 今週結果\n";
-            $messageBody .= "http://43.206.122.93/login[hr]";
+            $messageBody .= "https://43.206.122.93/login[hr]";
             $messageBody .= "▶︎獲得/挑戦権🎴枚数と平均順位\n";
 
         

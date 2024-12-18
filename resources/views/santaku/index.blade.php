@@ -8,7 +8,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!-- CSS only -->
     <link rel="stylesheet" href="/css/app.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
