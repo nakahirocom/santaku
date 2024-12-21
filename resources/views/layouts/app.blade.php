@@ -15,10 +15,6 @@
 
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>
-
-        @tailwind base;
-        @tailwind components;
-        @tailwind utilities;
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">

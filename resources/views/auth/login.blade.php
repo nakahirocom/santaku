@@ -19,7 +19,7 @@
             <div>
                 <x-label for="email" :value="__('Email')" />
 
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
+                <x-input id="email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" type="email" name="email" :value="old('email')" required autofocus />
             </div>
 
             <!-- Password -->
@@ -35,25 +35,27 @@
             <!-- Remember Me -->
             <div class="block mt-4">
                 <label for="remember_me" class="inline-flex items-center">
-                    <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" name="remember">
+                    <input id="remember_me" type="checkbox" name="remember" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" />
                     <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
                 </label>
             </div>
 
-            <div class="flex items-center justify-end mt-4">
+            <div class="flex items-center justify-between mt-4">
                 @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
-                        {{ __('Forgot your password?') }}
+                    <a href="{{ route('password.request') }}" class="text-sm text-indigo-600 hover:text-indigo-500">
+                        {{ __('パスワードをお忘れですか？') }}
                     </a>
                 @endif
-
-                <x-button class="ml-3">
-                    {{ __('Log in') }}
-                </x-button>
-                <x-button class="ml-3" >
-                    {{ __('ユーザー登録') }}
-
-                </x-button>
+            
+                <div class="flex gap-4 mt-4">
+                    <button type="submit" class="flex-1 py-2 px-4 border border-indigo-600 rounded-md shadow-sm text-sm font-medium text-indigo-600 bg-white hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out text-center">
+                        {{ __('ログイン') }}
+                    </button>
+                    
+                    <a href="{{ route('register') }}" class="flex-1 py-2 px-4 border border-indigo-600 rounded-md shadow-sm text-sm font-medium text-indigo-600 bg-white hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out text-center">
+                        {{ __('新規登録') }}
+                    </a>
+                </div>
             </div>
         </form>
     </x-auth-card>
