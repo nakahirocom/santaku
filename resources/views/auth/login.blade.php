@@ -40,13 +40,13 @@
                 </label>
             </div>
 
-            <div class="flex items-center justify-between mt-4">
+            <div class="flex items-center justify-end mt-4">
                 @if (Route::has('password.request'))
                     <a href="{{ route('password.request') }}" class="text-sm text-indigo-600 hover:text-indigo-500">
                         {{ __('パスワードをお忘れですか？') }}
                     </a>
                 @endif
-            
+
                 <div class="flex gap-4 mt-4">
                     <button type="submit" class="flex-1 py-2 px-4 border border-indigo-600 rounded-md shadow-sm text-sm font-medium text-indigo-600 bg-white hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out text-center">
                         {{ __('ログイン') }}

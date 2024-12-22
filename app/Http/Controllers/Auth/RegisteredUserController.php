@@ -77,6 +77,13 @@ class RegisteredUserController extends Controller
             $selectNewList->user_id = $id; // ここでUserIdを保存している　❌ =$id();
             $selectNewList->small_label_id = $item->id; //small_label_idを登録
             $selectNewList->selected = 1; //中分類を選んだ状態の「１」を登録
+            $selectNewList->basic_select = 1; // デフォルト値を設定
+            $selectNewList->commontag_id = 1; // デフォルト値を設定
+            $selectNewList->commontag_selected = 1; // デフォルト値を設定
+            $selectNewList->commontag_basic_selected = 1; // デフォルト値を設定
+            $selectNewList->individualtag_id = 1; // デフォルト値を設定
+            $selectNewList->individualtag_selected = 1; // デフォルト値を設定
+            $selectNewList->individualtag_basic_selected = 1; // デフォルト値を設定
             $selectNewList->save();
         }
 

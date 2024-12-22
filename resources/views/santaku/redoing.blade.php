@@ -186,13 +186,18 @@ document.getElementById('start_solving_time').value = startTime;
 
                     var kotae = document.getElementById('kotae');
                     document.getElementById('kakutei').type = 'submit';
-                    for (let step = 0; step < 8; step++) {
+                    
+                    // 一括でinput要素を作成
+                    const fragment = document.createDocumentFragment();
+                    arr.forEach((value, index) => {
                         var input_data = document.createElement('input');
                         input_data.type = 'hidden';
-                        input_data.name = "choice" + (step + 1) + "_Id";
-                        input_data.value = arr[step];
-                        kotae.appendChild(input_data);
-                    }
+                        input_data.name = "choice" + (index + 1) + "_Id";
+                        input_data.value = value;
+                        fragment.appendChild(input_data);
+                    });
+                    
+                    kotae.appendChild(fragment);
                 }
 
                 function buttonClick2() {
@@ -255,7 +260,11 @@ document.getElementById('start_solving_time').value = startTime;
                             display.style.color = 'red';
                         }
 
-                        display.textContent = "　残" + seconds + "." + (milliseconds < 10 ? "" : "") + milliseconds;
+                        // 表示更新を最適化
+                        if (timer % 5 === 0) { // 50ミリ秒ごとに更新
+                            display.textContent = "　残" + seconds + "." + 
+                                (milliseconds < 10 ? "" : "") + milliseconds;
+                        }
 
                         if (--timer < 0) {
                             clearInterval(countdownInterval);
