@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
             SmallLabelSeeder::class,
             UsersSeeder::class,
             CommonTagSeeder::class,
-            individualTagSeeder::class,
+            IndividualTagSeeder::class,
             LabelStorageSeeder::class,
             QuestionSeeder::class,
             AnswerResultsSeeder::class,
