@@ -35,31 +35,129 @@ class CreateController extends Controller
 
         // 質問画像がある場合、S3に保存。そうでない場合、デフォルト値を設定。
         if ($request->hasFile('question_image')) {
-            $file_name1 = $request->file('question_image')->getClientOriginalName();
-            $path1 = Storage::disk('s3')->putFileAs(
-                $dir,
-                $request->file('question_image'),
-                $file_name1,
-                ['ContentDisposition' => 'inline']
-            );
-            $question->question_path = Storage::disk('s3')->url($path1);
+            $file = $request->file('question_image');
+            
+            try {
+                // ファイルが有効かチェック
+                if (!$file->isValid()) {
+                    throw new \Exception('アップロードされたファイルが無効です');
+                }
+
+                // ファイル名の生成
+                $originalName = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+                $fileName = time() . '_' . md5(uniqid()) . '.' . $extension;
+                
+                // ファイル情報をログ出力
+                \Log::info('アップロードファイル情報:', [
+                    'original_name' => $originalName,
+                    'new_name' => $fileName,
+                    'mime_type' => $file->getMimeType(),
+                    'size' => $file->getSize(),
+                    'error' => $file->getError(),
+                    'real_path' => $file->getRealPath()
+                ]);
+
+                $filePath = 'images/' . $fileName;
+                
+                // ACLを使用せずにアップロード
+                $result = Storage::disk('s3')->put(
+                    $filePath,
+                    file_get_contents($file->getRealPath()),
+                    [
+                        'ContentType' => $file->getMimeType()
+                    ]
+                );
+
+                if (!$result) {
+                    throw new \Exception('ファイルのアップロードに失敗しました');
+                }
+
+                $fullPath = Storage::disk('s3')->url($filePath);
+                $question->question_path = $fullPath;
+
+                \Log::info('ファイルアップロード成功:', [
+                    'path' => $filePath,
+                    'url' => $fullPath
+                ]);
+
+            } catch (\Exception $e) {
+                \Log::error('S3アップロードエラー詳細:', [
+                    'error' => $e->getMessage(),
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine(),
+                    'trace' => $e->getTraceAsString()
+                ]);
+                return redirect()
+                    ->back()
+                    ->withInput()
+                    ->with('error', 'ファイルのアップロードに失敗しました: ' . $e->getMessage());
+            }
         } else {
-            // デフォルトの画像パス
             $question->question_path = null;
         }
 
         // コメント画像がある場合、S3に保存。そうでない場合、デフォルト値を設定。
         if ($request->hasFile('comment_image')) {
-            $file_name2 = $request->file('comment_image')->getClientOriginalName();
-            $path2 = Storage::disk('s3')->putFileAs(
-                $dir,
-                $request->file('comment_image'),
-                $file_name2,
-                ['ContentDisposition' => 'inline']
-            );
-            $question->comment_path = Storage::disk('s3')->url($path2);
+            $file = $request->file('comment_image');
+            
+            try {
+                // ファイルが有効かチェック
+                if (!$file->isValid()) {
+                    throw new \Exception('アップロードされたファイルが無効です');
+                }
+
+                // ファイル名の生成
+                $originalName = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+                $fileName = time() . '_' . md5(uniqid()) . '.' . $extension;
+                
+                // ファイル情報をログ出力
+                \Log::info('コメント画像アップロード情報:', [
+                    'original_name' => $originalName,
+                    'new_name' => $fileName,
+                    'mime_type' => $file->getMimeType(),
+                    'size' => $file->getSize(),
+                    'error' => $file->getError(),
+                    'real_path' => $file->getRealPath()
+                ]);
+
+                $filePath = 'images/' . $fileName;
+                
+                // ACLを使用せずにアップロード
+                $result = Storage::disk('s3')->put(
+                    $filePath,
+                    file_get_contents($file->getRealPath()),
+                    [
+                        'ContentType' => $file->getMimeType()
+                    ]
+                );
+
+                if (!$result) {
+                    throw new \Exception('ファイルのアップロードに失敗しました');
+                }
+
+                $fullPath = Storage::disk('s3')->url($filePath);
+                $question->comment_path = $fullPath;
+
+                \Log::info('コメント画像アップロード成功:', [
+                    'path' => $filePath,
+                    'url' => $fullPath
+                ]);
+
+            } catch (\Exception $e) {
+                \Log::error('S3コメント画像アップロードエラー詳細:', [
+                    'error' => $e->getMessage(),
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine(),
+                    'trace' => $e->getTraceAsString()
+                ]);
+                return redirect()
+                    ->back()
+                    ->withInput()
+                    ->with('error', 'コメント画像のアップロードに失敗しました: ' . $e->getMessage());
+            }
         } else {
-            // デフォルトの画像パス
             $question->comment_path = null;
         }
 
